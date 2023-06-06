@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,17 +18,14 @@ namespace car_wash_console_app
 
             while (runProgram)
             {
-                Console.WriteLine("\nOptions:");
-                Console.WriteLine("1 - Add Service");
-                Console.WriteLine("2 - Add Employee");
-                Console.WriteLine("3 - Add Client");
-                Console.WriteLine("5 - Exit");
-                Console.WriteLine("Write the option number to choose it: ");
-                
+                CreateLine();
+                MainOptions();
+
                 string userInput = Console.ReadLine();
                 if (userInput == "1")
                 {
-                    Console.WriteLine("\nChoose the service");
+                    Console.WriteLine("\n");
+                    Console.WriteLine("Choose the service");
                     Console.WriteLine("1 - Fast Wash");
                     Console.WriteLine("2 - Long Wash");
                     Console.WriteLine("3 - Especial Wash");
@@ -61,18 +59,59 @@ namespace car_wash_console_app
                     }
                 }
 
+                else if (userInput == "3")
+                {
+                    Console.WriteLine("What is the employee's name?");
+                    string newEmployeeName = Console.ReadLine();
+                    Console.WriteLine("What is the employee's salary");
+                    string newEmployeeSalary = Console.ReadLine();
+                    Console.WriteLine("What is the employee's adress");
+                    string newEmployeeAdress = Console.ReadLine();
+
+                    Console.WriteLine($"New employee");
+                    Console.WriteLine($"Name: {newEmployeeName}.");
+                    Console.WriteLine($"Salary: {newEmployeeSalary}.");
+                    Console.WriteLine($"Adress: {newEmployeeAdress}.");
+                    Console.WriteLine($"Confirm? (Yes/No)");
+                    Console.ReadLine();
+                }
+
                 else if (userInput == "5")
                 {
-                    runProgram = false;
+                    ExitProgram();
                 }
 
                 else
+                {
+                    InvalidChoiceErrorMessage();
+                }
+
+                void CreateLine()
+                {
+                    Console.WriteLine("\n|----------------------------------------------------------|\n");
+                }
+
+                void MainOptions()
+                {
+                    Console.WriteLine("Options:");
+                    Console.WriteLine("1 - Add Service");
+                    Console.WriteLine("2 - Add Client");
+                    Console.WriteLine("3 - Add Employee");
+                    Console.WriteLine("5 - Exit");
+                    Console.WriteLine("Write the option number to choose it: ");
+                }
+
+                void InvalidChoiceErrorMessage()
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nInvalid option, choose again.");
                     Console.ResetColor();
                 }
 
+                void ExitProgram()
+                {
+                    runProgram = false;
+                }
             }
         }
     }
