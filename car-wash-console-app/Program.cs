@@ -94,8 +94,7 @@ namespace car_wash_console_app
 
             void WashSelection()
             {
-                CreateLine();
-                Console.WriteLine("\nChoose the service");
+                Console.WriteLine("Choose the service");
                 Console.WriteLine("\n1 - Fast Wash");
                 Console.WriteLine("2 - Long Wash");
                 Console.WriteLine("3 - Especial Wash");
@@ -104,63 +103,22 @@ namespace car_wash_console_app
 
                 if (serviceOption == "1")
                 {
+                    Console.Clear();
+                    Console.WriteLine("Fast wash selected.\n");
                     WashServices washServices = new WashServices(WashServices.WashType.Fast);
-
                     SelectEmployeeForWash(washServices);
-
-                    /*
-                    Console.WriteLine("\nFast Wash selected. Confirm? (Yes/No)");
-                    string confirmation = Console.ReadLine().ToLower().Trim();
-
-                    if (confirmation == "yes")
-                    {
-                        
-                    }
-
-                    else if (confirmation == "no")
-                    {
-                        Console.WriteLine("Returning to main menu");
-                    }
-
-                    else
-                    {
-                        InvalidChoiceErrorMessage();
-                    }
-                    */
                 }
                 else if (serviceOption == "2")
                 {
-                    Console.WriteLine("Long Wash selected. Confirm? (Yes/No)");
-                    string confirmation = Console.ReadLine();
-                    confirmation.ToLower().Trim();
-
-                    if (confirmation == "yes")
-                    {
-                        WashServices washServices = new WashServices(WashServices.WashType.Long);
-                        Console.WriteLine("Choose the available employee");
-                        //Choose employee and start a x sec timer
-                    }
-                    else
-                    {
-                        InvalidChoiceErrorMessage();
-                    }
+                    Console.WriteLine("Long wash selected.\n");
+                    WashServices washServices = new WashServices(WashServices.WashType.Long);
+                    SelectEmployeeForWash(washServices);
                 }
                 else if (serviceOption == "3")
                 {
-                    Console.WriteLine("Especial Wash selected. Confirm? (Yes/No)");
-                    string confirmation = Console.ReadLine();
-                    confirmation.ToLower().Trim();
-
-                    if (confirmation == "yes")
-                    {
-                        WashServices washServices = new WashServices(WashServices.WashType.Especial);
-                        Console.WriteLine("Choose the available employee");
-                        //Choose employee and start a x sec timer
-                    }
-                    else
-                    {
-                        InvalidChoiceErrorMessage();
-                    }
+                    Console.WriteLine("Especial wash selected.\n");
+                    WashServices washServices = new WashServices(WashServices.WashType.Especial);
+                    SelectEmployeeForWash(washServices);
                 }
                 else
                 {
@@ -170,7 +128,7 @@ namespace car_wash_console_app
 
             void SelectEmployeeForWash(WashServices washType)
             {
-                Console.WriteLine("Choose the available employee tag");
+                Console.WriteLine("Choose the available employee:");
 
                 foreach (Employee employee in employees)
                 {
