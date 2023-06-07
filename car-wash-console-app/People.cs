@@ -22,6 +22,16 @@ namespace car_wash_console_app
         }
     }
 
+    internal class Client : People
+    {
+        public List<Vehicle> Vehicles { get; set; }
+
+        public Client(string name, string docNumber) : base(name, docNumber)
+        {
+            Vehicles = new List<Vehicle>();
+        }
+    }
+
     internal class Employee : People 
     {
         public double Salary { get; set; }

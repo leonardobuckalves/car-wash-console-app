@@ -46,6 +46,7 @@
     <Compile Include="People.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vehicle.cs" />
     <Compile Include="WashServices.cs" />
   </ItemGroup>
   <ItemGroup>

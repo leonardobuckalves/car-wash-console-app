@@ -12,6 +12,7 @@ namespace car_wash_console_app
         static void Main(string[] args)
         {
             List<Employee> employees = new List<Employee>();
+            List<Client> clients = new List<Client>();
 
             bool runProgram = true;
 
@@ -63,7 +64,8 @@ namespace car_wash_console_app
                 else if (userInput == "3")
                 {
                     //create, edit, delete????
-                    //CreateClient();
+                    Console.Clear();
+                    CreateClient();
                 }
 
                 else if (userInput == "4")
@@ -126,29 +128,16 @@ namespace car_wash_console_app
                 }
             }
 
-            void SelectEmployeeForWash(WashServices washType)
+            void CreateClient()
             {
-                Console.WriteLine("Choose the available employee:");
+                Console.WriteLine("What is the client's name?");
+                string newClientName = Console.ReadLine();
 
-                foreach (Employee employee in employees)
-                {
-                    if (!employee.WorkingNow)
-                    {
-                        Console.WriteLine($"{employee.Id} - {employee.Name}");
-                    }
-                }
+                Console.WriteLine("What is the client's document number");
+                string newClientDocNumber = Console.ReadLine();
 
-                int selectedEmployeeNum = int.Parse(Console.ReadLine());
-
-                foreach (Employee employee in employees)
-                {
-                    if (selectedEmployeeNum == employee.Id)
-                    {
-                        washType.StartWash(employee);
-                        Console.WriteLine(employee.WorkingNow);
-                        //Start timer
-                    }
-                }
+                Client newClient = new Client(newClientName, newClientDocNumber);
+                clients.Add(newClient);
             }
 
             void CreateEmployee()
@@ -174,7 +163,31 @@ namespace car_wash_console_app
                 //Console.ReadLine();
                 Employee newEmployee = new Employee(newEmployeeName, newEmployeeDocNumber, newEmployeeSalary);
                 employees.Add(newEmployee);
-                
+            }
+
+            void SelectEmployeeForWash(WashServices washType)
+            {
+                Console.WriteLine("Choose the available employee:");
+
+                foreach (Employee employee in employees)
+                {
+                    if (!employee.WorkingNow)
+                    {
+                        Console.WriteLine($"{employee.Id} - {employee.Name}");
+                    }
+                }
+
+                int selectedEmployeeNum = int.Parse(Console.ReadLine());
+
+                foreach (Employee employee in employees)
+                {
+                    if (selectedEmployeeNum == employee.Id)
+                    {
+                        washType.StartWash(employee);
+                        Console.WriteLine(employee.WorkingNow);
+                        //Start timer
+                    }
+                }
             }
 
             void ExitProgram()
