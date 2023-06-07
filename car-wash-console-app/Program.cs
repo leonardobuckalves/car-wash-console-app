@@ -58,7 +58,8 @@ namespace car_wash_console_app
                 else if (userInput == "2")
                 {
                     //create, edit, delete????
-                    //CreateCar();
+                    Console.Clear();
+                    CreateCar();
                 }
 
                 else if (userInput == "3")
@@ -125,6 +126,33 @@ namespace car_wash_console_app
                 else
                 {
                     InvalidChoiceErrorMessage();
+                }
+            }
+
+            void CreateCar() 
+            {
+                Console.WriteLine("What is the car plate number");
+                string newCarPlateNumber = Console.ReadLine();
+
+                Console.WriteLine("What is the car color");
+                string newCarColor = Console.ReadLine();
+
+                Console.WriteLine("What is the car Model");
+                string newCarModel = Console.ReadLine();
+
+                Console.WriteLine("Who is the owner?");
+                foreach (Client client in clients)
+                {
+                    Console.WriteLine($"Id: {client.Id} - Name: {client.Name}");
+                }
+                int newCarOwnerId = int.Parse( Console.ReadLine() );
+
+                foreach (Client client in clients)
+                {
+                    if (client.Id == newCarOwnerId)
+                    {
+                        Vehicle newVehicle = new Vehicle(newCarPlateNumber, newCarColor, newCarModel, client);
+                    }
                 }
             }
 

@@ -18,10 +18,14 @@ namespace car_wash_console_app
         public int ClientId { get; set; }
         public virtual Client Client { get; set; }
 
-        public Vehicle() 
+        public Vehicle(string plate, string color, string model, Client client)
         {
             Id = NextId;
             NextId++;
+            this.PlateNumber = plate;
+            this.Color = color;
+            this.Model = model;
+            this.Client = client;
         }
     }
 }
