@@ -23,8 +23,9 @@ namespace car_wash_console_app
             Especial
         }
 
-        public void StartWash(Employee employee)
+        public void StartWash(Employee employee, Vehicle vehicle)
         {
+            vehicle.IsBeingWashed = true;
             employee.WorkingNow = true;
         }
 

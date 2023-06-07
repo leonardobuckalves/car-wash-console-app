@@ -15,6 +15,8 @@ namespace car_wash_console_app
         public string Color { get; set; }
         public string Model { get; set; }
 
+        public bool IsBeingWashed = false;
+
         public int ClientId { get; set; }
         public virtual Client Client { get; set; }
 

@@ -81,6 +81,18 @@ namespace car_wash_console_app
                     ExitProgram();
                 }
 
+                else if (userInput == "9")
+                {
+                    foreach (Client client in clients)
+                    {
+                        foreach(Vehicle vehicle in client.Vehicles)
+                        {
+                            Console.WriteLine($"VID: {vehicle.Id}");
+                            Console.WriteLine($"VCLIENT: {vehicle.Client.Name}");
+                        }
+                    }
+                }
+
                 else
                 {
                     InvalidChoiceErrorMessage();
@@ -109,19 +121,25 @@ namespace car_wash_console_app
                     Console.Clear();
                     Console.WriteLine("Fast wash selected.\n");
                     WashServices washServices = new WashServices(WashServices.WashType.Fast);
-                    SelectEmployeeForWash(washServices);
+                    Employee selectedEmployee = SelectEmployeeForWash();
+                    Vehicle selectedCar = SelectCarForWash();
+                    washServices.StartWash(selectedEmployee, selectedCar);
                 }
                 else if (serviceOption == "2")
                 {
                     Console.WriteLine("Long wash selected.\n");
                     WashServices washServices = new WashServices(WashServices.WashType.Long);
-                    SelectEmployeeForWash(washServices);
+                    Employee selectedEmployee = SelectEmployeeForWash();
+                    Vehicle selectedCar = SelectCarForWash();
+                    washServices.StartWash(selectedEmployee, selectedCar);
                 }
                 else if (serviceOption == "3")
                 {
                     Console.WriteLine("Especial wash selected.\n");
                     WashServices washServices = new WashServices(WashServices.WashType.Especial);
-                    SelectEmployeeForWash(washServices);
+                    Employee selectedEmployee = SelectEmployeeForWash();
+                    Vehicle selectedCar = SelectCarForWash();
+                    washServices.StartWash(selectedEmployee, selectedCar);
                 }
                 else
                 {
@@ -152,6 +170,7 @@ namespace car_wash_console_app
                     if (client.Id == newCarOwnerId)
                     {
                         Vehicle newVehicle = new Vehicle(newCarPlateNumber, newCarColor, newCarModel, client);
+                        client.Vehicles.Add(newVehicle);
                     }
                 }
             }
@@ -193,7 +212,7 @@ namespace car_wash_console_app
                 employees.Add(newEmployee);
             }
 
-            void SelectEmployeeForWash(WashServices washType)
+            Employee SelectEmployeeForWash()
             {
                 Console.WriteLine("Choose the available employee:");
 
@@ -209,13 +228,49 @@ namespace car_wash_console_app
 
                 foreach (Employee employee in employees)
                 {
-                    if (selectedEmployeeNum == employee.Id)
+                    if(selectedEmployeeNum == employee.Id)
                     {
-                        washType.StartWash(employee);
-                        Console.WriteLine(employee.WorkingNow);
-                        //Start timer
+                        return employee;
                     }
                 }
+
+                return null;
+            }
+
+            Vehicle SelectCarForWash()
+            {
+                Console.WriteLine("Select the client");
+                foreach (Client client in clients)
+                {
+                    Console.WriteLine($"Client ID: {client.Id}");
+                    Console.WriteLine($"Client Name: {client.Name}");
+                }
+
+                int clientSelected = int.Parse(Console.ReadLine());
+                
+                foreach (Client client in clients)
+                {
+                    if (clientSelected == client.Id)
+                    {
+                        Console.WriteLine("Select the car");
+                        foreach (Vehicle vehicle in client.Vehicles)
+                        {
+                            Console.WriteLine($"Car Id: {vehicle.Id}");
+                            Console.WriteLine($"Car Model: {vehicle.Model}");
+                            Console.WriteLine($"Car plate: {vehicle.PlateNumber}");
+                        }
+                        int carSelected = int.Parse(Console.ReadLine());
+                        
+                        foreach(Vehicle vehicle in client.Vehicles)
+                        {
+                            if(carSelected == vehicle.Id)
+                            {
+                                return vehicle;
+                            }
+                        }
+                    }
+                }
+                return null;
             }
 
             void ExitProgram()
