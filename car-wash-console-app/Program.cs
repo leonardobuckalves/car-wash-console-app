@@ -36,7 +36,7 @@ namespace car_wash_console_app
 
             void MainOptions()
             {
-                ShowTitle();
+                //ShowTitle();
 
                 Console.WriteLine("Options:");
                 Console.WriteLine("\n1 - Add Service");
@@ -56,16 +56,19 @@ namespace car_wash_console_app
 
                 else if (userInput == "2")
                 {
+                    //create, edit, delete????
                     //CreateCar();
                 }
 
                 else if (userInput == "3")
                 {
+                    //create, edit, delete????
                     //CreateClient();
                 }
 
                 else if (userInput == "4")
                 {
+                    //create, edit, delete????
                     Console.Clear();
                     CreateEmployee();
                 }
@@ -108,7 +111,26 @@ namespace car_wash_console_app
                     {
                         WashServices washServices = new WashServices(WashServices.WashType.Fast);
                         Console.WriteLine("Choose the available employee");
-                        //Choose employee and start a x sec timer
+                        
+                        foreach (Employee employee in employees)
+                        {
+                            if (!employee.WorkingNow)
+                            {
+                                Console.WriteLine($"{employee.Id}, {employee.Name}");
+                            }
+                        }
+
+                        int selectedEmployeeNum = int.Parse(Console.ReadLine());
+
+                        foreach (Employee employee in employees)
+                        {
+                            if (selectedEmployeeNum == employee.Id)
+                            {
+                                washServices.StartWash(employee);
+                                Console.WriteLine(employee.WorkingNow);
+                                //Start timer
+                            }
+                        }
                     }
 
                     else if (confirmation == "no")
