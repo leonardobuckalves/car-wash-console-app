@@ -104,33 +104,17 @@ namespace car_wash_console_app
 
                 if (serviceOption == "1")
                 {
+                    WashServices washServices = new WashServices(WashServices.WashType.Fast);
+
+                    SelectEmployeeForWash(washServices);
+
+                    /*
                     Console.WriteLine("\nFast Wash selected. Confirm? (Yes/No)");
                     string confirmation = Console.ReadLine().ToLower().Trim();
 
                     if (confirmation == "yes")
                     {
-                        WashServices washServices = new WashServices(WashServices.WashType.Fast);
-                        Console.WriteLine("Choose the available employee");
                         
-                        foreach (Employee employee in employees)
-                        {
-                            if (!employee.WorkingNow)
-                            {
-                                Console.WriteLine($"{employee.Id}, {employee.Name}");
-                            }
-                        }
-
-                        int selectedEmployeeNum = int.Parse(Console.ReadLine());
-
-                        foreach (Employee employee in employees)
-                        {
-                            if (selectedEmployeeNum == employee.Id)
-                            {
-                                washServices.StartWash(employee);
-                                Console.WriteLine(employee.WorkingNow);
-                                //Start timer
-                            }
-                        }
                     }
 
                     else if (confirmation == "no")
@@ -142,6 +126,7 @@ namespace car_wash_console_app
                     {
                         InvalidChoiceErrorMessage();
                     }
+                    */
                 }
                 else if (serviceOption == "2")
                 {
@@ -180,6 +165,31 @@ namespace car_wash_console_app
                 else
                 {
                     InvalidChoiceErrorMessage();
+                }
+            }
+
+            void SelectEmployeeForWash(WashServices washType)
+            {
+                Console.WriteLine("Choose the available employee tag");
+
+                foreach (Employee employee in employees)
+                {
+                    if (!employee.WorkingNow)
+                    {
+                        Console.WriteLine($"{employee.Id} - {employee.Name}");
+                    }
+                }
+
+                int selectedEmployeeNum = int.Parse(Console.ReadLine());
+
+                foreach (Employee employee in employees)
+                {
+                    if (selectedEmployeeNum == employee.Id)
+                    {
+                        washType.StartWash(employee);
+                        Console.WriteLine(employee.WorkingNow);
+                        //Start timer
+                    }
                 }
             }
 
