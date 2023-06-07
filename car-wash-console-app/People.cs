@@ -12,11 +12,11 @@ namespace car_wash_console_app
 
         private static int NextId = 1;
         public string Name { get; set; }
-        public string Adress { get; set; }
-        public People(string name, string adress)
+        public string DocumentNumber { get; set; }
+        public People(string name, string docNumber)
         {
             this.Name = name;
-            this.Adress = adress;
+            this.DocumentNumber = docNumber;
             Id = NextId;
             NextId++;
         }
@@ -27,7 +27,7 @@ namespace car_wash_console_app
         public double Salary { get; set; }
         public bool WorkingNow { get; set; }
 
-        public Employee(string name, string adress, double salary) : base(name, adress)
+        public Employee(string name, string docNumber, double salary) : base(name, docNumber)
         {
             this.Salary = salary;
             this.WorkingNow = false;
