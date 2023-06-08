@@ -205,11 +205,15 @@ namespace car_wash_console_app
                 Console.WriteLine($"\nName: {newEmployeeName}.");
                 Console.WriteLine($"Salary: {newEmployeeSalary}.");
                 Console.WriteLine($"document number: {newEmployeeDocNumber}.");
-                //Console.WriteLine($"Confirm? (Yes/No)");
+                Console.WriteLine($"Confirm? (Yes/No)");
                 // if no, change wich one?
-                //Console.ReadLine();
-                Employee newEmployee = new Employee(newEmployeeName, newEmployeeDocNumber, newEmployeeSalary);
-                employees.Add(newEmployee);
+                string choiceConfirmed = Console.ReadLine().ToLower().Trim();
+                if (choiceConfirmed == "yes")
+                {
+                    Employee newEmployee = new Employee(newEmployeeName, newEmployeeDocNumber, newEmployeeSalary);
+                    employees.Add(newEmployee);
+                }
+                
             }
 
             Employee SelectEmployeeForWash()
