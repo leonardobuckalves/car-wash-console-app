@@ -81,18 +81,6 @@ namespace car_wash_console_app
                     ExitProgram();
                 }
 
-                else if (userInput == "9")
-                {
-                    foreach (Client client in clients)
-                    {
-                        foreach(Vehicle vehicle in client.Vehicles)
-                        {
-                            Console.WriteLine($"VID: {vehicle.Id}");
-                            Console.WriteLine($"VCLIENT: {vehicle.Client.Name}");
-                        }
-                    }
-                }
-
                 else
                 {
                     InvalidChoiceErrorMessage();
