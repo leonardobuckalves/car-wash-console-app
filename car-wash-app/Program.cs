@@ -14,6 +14,28 @@ namespace car_wash_app
     {
         static void Main(string[] args)
         {
+
+            string connectionString = "server=localhost;user=root;password=159753;database=carwash";
+
+            using MySqlConnection connection = new MySqlConnection(connectionString);
+            connection.Open();
+
+            string query = "SELECT * FROM employees";
+            using MySqlCommand command = new MySqlCommand(query, connection);
+            using MySqlDataReader reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                // Access the columns returned by the query
+                int id = reader.GetInt32("Id");
+                string name = reader.GetString("Name");
+                // ...
+                Console.WriteLine(name);
+            }
+
+            connection.Close();
+
+
             List<Employee> employees = new List<Employee>();
             List<Client> clients = new List<Client>();
 
@@ -184,28 +206,85 @@ namespace car_wash_app
                 string newEmployeeName = Console.ReadLine();
 
                 Console.Clear();
-                Console.WriteLine("What is the employee's salary");
+                Console.WriteLine("What is the employee's salary?");
                 double newEmployeeSalary = double.Parse(Console.ReadLine());
 
                 Console.Clear();
-                Console.WriteLine("What is the employee's document number");
+                Console.WriteLine("What is the employee's document number?");
                 string newEmployeeDocNumber = Console.ReadLine();
 
                 Console.Clear();
                 Console.WriteLine($"New employee file:");
                 Console.WriteLine($"\nName: {newEmployeeName}.");
                 Console.WriteLine($"Salary: {newEmployeeSalary}.");
-                Console.WriteLine($"document number: {newEmployeeDocNumber}.");
+                Console.WriteLine($"Document number: {newEmployeeDocNumber}.");
                 Console.WriteLine($"Confirm? (Yes/No)");
-                // if no, change wich one?
+
                 string choiceConfirmed = Console.ReadLine().ToLower().Trim();
                 if (choiceConfirmed == "yes")
                 {
-                    Employee newEmployee = new Employee(newEmployeeName, newEmployeeDocNumber, newEmployeeSalary);
-                    employees.Add(newEmployee);
-                }
+                    string connectionString = "server=localhost;user=root;password=159753;database=carwash";
 
+                    string insertQuery = "INSERT INTO employees (Name, DocumentNumber, Salary, WorkingNow) " +
+                                         "VALUES (@Name, @DocumentNumber, @Salary, 1)";
+
+                    using (MySqlConnection connection = new MySqlConnection(connectionString))
+                    {
+                        using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@Name", newEmployeeName);
+                            command.Parameters.AddWithValue("@DocumentNumber", newEmployeeDocNumber);
+                            command.Parameters.AddWithValue("@Salary", newEmployeeSalary);
+
+                            try
+                            {
+                                connection.Open();
+                                command.ExecuteNonQuery();
+                                Console.WriteLine("Employee record inserted successfully!");
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Error inserting employee: " + ex.Message);
+                            }
+                        }
+                    }
+                }
             }
+
+            //void DeleteEmployee(int employeeId)
+            //{
+            //    string connectionString = "server=localhost;user=root;password=159753;database=carwash";
+
+            //    string deleteQuery = "DELETE FROM employees WHERE EmployeeId = @EmployeeId";
+
+            //    using (MySqlConnection connection = new MySqlConnection(connectionString))
+            //    {
+            //        using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
+            //        {
+            //            command.Parameters.AddWithValue("@EmployeeId", employeeId);
+
+            //            try
+            //            {
+            //                connection.Open();
+            //                int rowsAffected = command.ExecuteNonQuery();
+            //                if (rowsAffected > 0)
+            //                {
+            //                    Console.WriteLine("Employee record deleted successfully!");
+            //                }
+            //                else
+            //                {
+            //                    Console.WriteLine("No employee record found with the specified ID.");
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                Console.WriteLine("Error deleting employee: " + ex.Message);
+            //            }
+            //        }
+            //    }
+            //}
+
+
 
             Employee SelectEmployeeForWash()
             {
