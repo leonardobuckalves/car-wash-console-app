@@ -1,11 +1,14 @@
-﻿using System;
+﻿using car_wash_app;
+using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace car_wash_console_app
+namespace car_wash_app
 {
     internal class Program
     {
@@ -135,7 +138,7 @@ namespace car_wash_console_app
                 }
             }
 
-            void CreateCar() 
+            void CreateCar()
             {
                 Console.WriteLine("What is the car plate number");
                 string newCarPlateNumber = Console.ReadLine();
@@ -151,7 +154,7 @@ namespace car_wash_console_app
                 {
                     Console.WriteLine($"Id: {client.Id} - Name: {client.Name}");
                 }
-                int newCarOwnerId = int.Parse( Console.ReadLine() );
+                int newCarOwnerId = int.Parse(Console.ReadLine());
 
                 foreach (Client client in clients)
                 {
@@ -201,7 +204,7 @@ namespace car_wash_console_app
                     Employee newEmployee = new Employee(newEmployeeName, newEmployeeDocNumber, newEmployeeSalary);
                     employees.Add(newEmployee);
                 }
-                
+
             }
 
             Employee SelectEmployeeForWash()
@@ -220,7 +223,7 @@ namespace car_wash_console_app
 
                 foreach (Employee employee in employees)
                 {
-                    if(selectedEmployeeNum == employee.Id)
+                    if (selectedEmployeeNum == employee.Id)
                     {
                         return employee;
                     }
@@ -239,7 +242,7 @@ namespace car_wash_console_app
                 }
 
                 int clientSelected = int.Parse(Console.ReadLine());
-                
+
                 foreach (Client client in clients)
                 {
                     if (clientSelected == client.Id)
@@ -252,10 +255,10 @@ namespace car_wash_console_app
                             Console.WriteLine($"Car plate: {vehicle.PlateNumber}");
                         }
                         int carSelected = int.Parse(Console.ReadLine());
-                        
-                        foreach(Vehicle vehicle in client.Vehicles)
+
+                        foreach (Vehicle vehicle in client.Vehicles)
                         {
-                            if(carSelected == vehicle.Id)
+                            if (carSelected == vehicle.Id)
                             {
                                 return vehicle;
                             }

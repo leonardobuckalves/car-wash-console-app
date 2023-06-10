@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace car_wash_console_app
+namespace car_wash_app
 {
     internal class WashServices
     {
@@ -28,6 +27,5 @@ namespace car_wash_console_app
             vehicle.IsBeingWashed = true;
             employee.WorkingNow = true;
         }
-
     }
 }

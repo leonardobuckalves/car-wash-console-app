@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MySqlX.XDevAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace car_wash_console_app
+namespace car_wash_app
 {
     internal class Vehicle
     {

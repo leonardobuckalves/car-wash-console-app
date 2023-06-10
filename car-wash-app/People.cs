@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace car_wash_console_app
+namespace car_wash_app
 {
     internal class People
     {
@@ -32,7 +32,7 @@ namespace car_wash_console_app
         }
     }
 
-    internal class Employee : People 
+    internal class Employee : People
     {
         public double Salary { get; set; }
         public bool WorkingNow { get; set; }
