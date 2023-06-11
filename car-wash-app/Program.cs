@@ -14,28 +14,6 @@ namespace car_wash_app
     {
         static void Main(string[] args)
         {
-
-            string connectionString = "server=localhost;user=root;password=159753;database=carwash";
-
-            using MySqlConnection connection = new MySqlConnection(connectionString);
-            connection.Open();
-
-            string query = "SELECT * FROM employees";
-            using MySqlCommand command = new MySqlCommand(query, connection);
-            using MySqlDataReader reader = command.ExecuteReader();
-
-            while (reader.Read())
-            {
-                // Access the columns returned by the query
-                int id = reader.GetInt32("Id");
-                string name = reader.GetString("Name");
-                // ...
-                Console.WriteLine(name);
-            }
-
-            connection.Close();
-
-
             List<Employee> employees = new List<Employee>();
             List<Client> clients = new List<Client>();
 
@@ -62,7 +40,7 @@ namespace car_wash_app
 
             void MainOptions()
             {
-                //ShowTitle();
+                ShowTitle();
 
                 Console.WriteLine("Options:");
                 Console.WriteLine("\n1 - Add Service");
@@ -137,22 +115,27 @@ namespace car_wash_app
                     Employee selectedEmployee = SelectEmployeeForWash();
                     Vehicle selectedCar = SelectCarForWash();
                     washServices.StartWash(selectedEmployee, selectedCar);
+                    WashInProgressText();
                 }
                 else if (serviceOption == "2")
                 {
+                    Console.Clear();
                     Console.WriteLine("Long wash selected.\n");
                     WashServices washServices = new WashServices(WashServices.WashType.Long);
                     Employee selectedEmployee = SelectEmployeeForWash();
                     Vehicle selectedCar = SelectCarForWash();
                     washServices.StartWash(selectedEmployee, selectedCar);
+                    WashInProgressText();
                 }
                 else if (serviceOption == "3")
                 {
+                    Console.Clear();
                     Console.WriteLine("Especial wash selected.\n");
                     WashServices washServices = new WashServices(WashServices.WashType.Especial);
                     Employee selectedEmployee = SelectEmployeeForWash();
                     Vehicle selectedCar = SelectCarForWash();
                     washServices.StartWash(selectedEmployee, selectedCar);
+                    WashInProgressText();
                 }
                 else
                 {
@@ -160,17 +143,29 @@ namespace car_wash_app
                 }
             }
 
+            void WashInProgressText()
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("\n\nWash in progress...");
+                Console.ResetColor();
+                Thread.Sleep(3000);
+            }
+
             void CreateCar()
             {
+                Console.Clear();
                 Console.WriteLine("What is the car plate number");
                 string newCarPlateNumber = Console.ReadLine();
 
+                Console.Clear();
                 Console.WriteLine("What is the car color");
                 string newCarColor = Console.ReadLine();
 
+                Console.Clear();
                 Console.WriteLine("What is the car Model");
                 string newCarModel = Console.ReadLine();
 
+                Console.Clear();
                 Console.WriteLine("Who is the owner?");
                 foreach (Client client in clients)
                 {
@@ -182,22 +177,53 @@ namespace car_wash_app
                 {
                     if (client.Id == newCarOwnerId)
                     {
-                        Vehicle newVehicle = new Vehicle(newCarPlateNumber, newCarColor, newCarModel, client);
-                        client.Vehicles.Add(newVehicle);
+                        Console.Clear();
+                        Console.WriteLine($"New car file:");
+                        Console.WriteLine($"\nPlate: {newCarPlateNumber}.");
+                        Console.WriteLine($"Color: {newCarColor}.");
+                        Console.WriteLine($"Car model: {newCarModel}.");
+                        Console.WriteLine($"\nConfirm? (Yes/No)");
+                        // if no, change wich one?
+                        string choiceConfirmed = Console.ReadLine().ToLower().Trim();
+                        if (choiceConfirmed == "yes")
+                        {
+                            Vehicle newVehicle = new Vehicle(newCarPlateNumber, newCarColor, newCarModel, client);
+                            client.Vehicles.Add(newVehicle);
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("\nCar created sucessfully");
+                            Console.ResetColor();
+                            Thread.Sleep(3000);
+                        }
                     }
-                }
+                }    
             }
 
             void CreateClient()
             {
+                Console.Clear();
                 Console.WriteLine("What is the client's name?");
                 string newClientName = Console.ReadLine();
 
+                Console.Clear();
                 Console.WriteLine("What is the client's document number");
                 string newClientDocNumber = Console.ReadLine();
 
-                Client newClient = new Client(newClientName, newClientDocNumber);
-                clients.Add(newClient);
+                Console.Clear();
+                Console.WriteLine($"New client file:");
+                Console.WriteLine($"\nName: {newClientName}.");
+                Console.WriteLine($"Document number: {newClientDocNumber}.");
+                Console.WriteLine($"\nConfirm? (Yes/No)");
+                // if no, change wich one?
+                string choiceConfirmed = Console.ReadLine().ToLower().Trim();
+                if (choiceConfirmed == "yes")
+                {
+                    Client newClient = new Client(newClientName, newClientDocNumber);
+                    clients.Add(newClient);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\nClient created sucessfully");
+                    Console.ResetColor();
+                    Thread.Sleep(3000);
+                }
             }
 
             void CreateEmployee()
@@ -206,11 +232,11 @@ namespace car_wash_app
                 string newEmployeeName = Console.ReadLine();
 
                 Console.Clear();
-                Console.WriteLine("What is the employee's salary?");
+                Console.WriteLine("What is the employee's salary");
                 double newEmployeeSalary = double.Parse(Console.ReadLine());
 
                 Console.Clear();
-                Console.WriteLine("What is the employee's document number?");
+                Console.WriteLine("What is the employee's document number");
                 string newEmployeeDocNumber = Console.ReadLine();
 
                 Console.Clear();
@@ -218,76 +244,23 @@ namespace car_wash_app
                 Console.WriteLine($"\nName: {newEmployeeName}.");
                 Console.WriteLine($"Salary: {newEmployeeSalary}.");
                 Console.WriteLine($"Document number: {newEmployeeDocNumber}.");
-                Console.WriteLine($"Confirm? (Yes/No)");
-
+                Console.WriteLine($"\nConfirm? (Yes/No)");
+                // if no, change wich one?
                 string choiceConfirmed = Console.ReadLine().ToLower().Trim();
                 if (choiceConfirmed == "yes")
                 {
-                    string connectionString = "server=localhost;user=root;password=159753;database=carwash";
-
-                    string insertQuery = "INSERT INTO employees (Name, DocumentNumber, Salary, WorkingNow) " +
-                                         "VALUES (@Name, @DocumentNumber, @Salary, 1)";
-
-                    using (MySqlConnection connection = new MySqlConnection(connectionString))
-                    {
-                        using (MySqlCommand command = new MySqlCommand(insertQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@Name", newEmployeeName);
-                            command.Parameters.AddWithValue("@DocumentNumber", newEmployeeDocNumber);
-                            command.Parameters.AddWithValue("@Salary", newEmployeeSalary);
-
-                            try
-                            {
-                                connection.Open();
-                                command.ExecuteNonQuery();
-                                Console.WriteLine("Employee record inserted successfully!");
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error inserting employee: " + ex.Message);
-                            }
-                        }
-                    }
+                    Employee newEmployee = new Employee(newEmployeeName, newEmployeeDocNumber, newEmployeeSalary);
+                    employees.Add(newEmployee);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("\nEmployee created sucessfully");
+                    Console.ResetColor();
+                    Thread.Sleep(3000);
                 }
             }
 
-            //void DeleteEmployee(int employeeId)
-            //{
-            //    string connectionString = "server=localhost;user=root;password=159753;database=carwash";
-
-            //    string deleteQuery = "DELETE FROM employees WHERE EmployeeId = @EmployeeId";
-
-            //    using (MySqlConnection connection = new MySqlConnection(connectionString))
-            //    {
-            //        using (MySqlCommand command = new MySqlCommand(deleteQuery, connection))
-            //        {
-            //            command.Parameters.AddWithValue("@EmployeeId", employeeId);
-
-            //            try
-            //            {
-            //                connection.Open();
-            //                int rowsAffected = command.ExecuteNonQuery();
-            //                if (rowsAffected > 0)
-            //                {
-            //                    Console.WriteLine("Employee record deleted successfully!");
-            //                }
-            //                else
-            //                {
-            //                    Console.WriteLine("No employee record found with the specified ID.");
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                Console.WriteLine("Error deleting employee: " + ex.Message);
-            //            }
-            //        }
-            //    }
-            //}
-
-
-
             Employee SelectEmployeeForWash()
             {
+                Console.Clear();
                 Console.WriteLine("Choose the available employee:");
 
                 foreach (Employee employee in employees)
@@ -313,11 +286,11 @@ namespace car_wash_app
 
             Vehicle SelectCarForWash()
             {
+                Console.Clear();
                 Console.WriteLine("Select the client");
                 foreach (Client client in clients)
                 {
-                    Console.WriteLine($"Client ID: {client.Id}");
-                    Console.WriteLine($"Client Name: {client.Name}");
+                    Console.WriteLine($"Client ID: {client.Id}, Name: {client.Name}");
                 }
 
                 int clientSelected = int.Parse(Console.ReadLine());
@@ -326,12 +299,10 @@ namespace car_wash_app
                 {
                     if (clientSelected == client.Id)
                     {
-                        Console.WriteLine("Select the car");
+                        Console.WriteLine("\nSelect the car");
                         foreach (Vehicle vehicle in client.Vehicles)
                         {
-                            Console.WriteLine($"Car Id: {vehicle.Id}");
-                            Console.WriteLine($"Car Model: {vehicle.Model}");
-                            Console.WriteLine($"Car plate: {vehicle.PlateNumber}");
+                            Console.WriteLine($"Car Id: {vehicle.Id}, Model: {vehicle.Model}, Plate: {vehicle.PlateNumber}");
                         }
                         int carSelected = int.Parse(Console.ReadLine());
 
