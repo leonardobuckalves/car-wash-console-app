@@ -22,7 +22,7 @@ Create employees, clients and cars so you can select a wash type and start washi
 
 # How to run the project
 
-Start Visual Studio 2022 and select the project folder and then press F5 to start.
+In Visual Studio 2022, select the project folder, select car-wash-app.sln and press F5, or, to run without debugging, press Ctrl+F5 to start without debugging.
 
 # Author
 
